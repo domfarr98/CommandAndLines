@@ -1,0 +1,44 @@
+C&L:
+- It should work on terminal input using specific commands, i.e. 'roll' or 'use x'.
+	- This will require a user input class to capture these commands.
+	
+- Players should be able to pick up powerups that they can store in an 'inventory'.
+	- Each piece will have an inventory object which stores how many powerups they have.
+	- Even computer pieces will have these, of which they will have specific functionality/behaviour to use them.
+	- Powerups will be randomly placed on tiles throughout the board. Pieces will be able to pick these up by landing on them.
+	- An exmple powerup; 'shuffle' - completely shuffles the placement of all the C&L/S&L's on the board.
+	- Powerups can only be used before a user rolls the dice, not after. Meaning a powerup can only be used after the round after it was picked up.
+	
+- Board tiles will be rendered like so:
+	------
+	|x +n|
+	|~  D|
+	------
+	- Here:
+		- x will represent the tile number.
+		- n will represent where the player moves if they land there (blank if no movement).
+		- * represents a powerup, ~ could be shuffle (blank if no powerup).
+		- D represents the player (blank if no player on tile).
+			- For computer pieces, we will need a distinct character.
+
+- The board can be variable in size, and can be set on game start.
+	- Ideally, the size should be a multiple of however many tiles is displayed in a row.
+		- This multiple should also be the minimum size for the board.
+		- Should there be a max size?
+		- Perhaps these settings should be stored in a struct?
+
+- Movement tiles (see above) will send a player a number of steps forward or backward
+	-  There are a number of factors that need to be considered, such as:
+		- Number of movement tiles in a game:
+			- Should be determined using the max number of total tiles, perhaps max tiles / 5? With the minimum number being 1.
+		- Min/Max number of moves to a tile:
+			- Minimum should probably be 1. Max should be something like the max number of tiles / 3.
+		- Calculate number of moves on a move tile:
+			- Perhaps a random number between min and max.
+
+- Move all standard library includes to stdafx.h
+
+- Unit tests
+
+- Seperate files into respective folders and namespaces:
+	- I.e. Game Mechanics, Interfacing, etc.
