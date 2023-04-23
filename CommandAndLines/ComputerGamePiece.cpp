@@ -5,7 +5,7 @@ ComputerGamePiece::ComputerGamePiece(std::string name, int suceedingNumber)
 {
 
 }
-void ComputerGamePiece::MovePiece(int moves)
+void ComputerGamePiece::MovePiece()
 {
 
 }

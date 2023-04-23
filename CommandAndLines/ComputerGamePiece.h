@@ -8,6 +8,8 @@ public:
 	ComputerGamePiece(std::string name, int suceedingNumber);
 
 	void MovePiece() override;
+	int GetPosition() override { return m_position; }
+	PowerupTypes ShouldUsePowerup() override;
 	void SetPowerup(PowerupTypes powerup) override { currentPowerup = powerup; }
 
 	std::string GetName() override { return m_name; }
