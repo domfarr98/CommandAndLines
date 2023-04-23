@@ -20,7 +20,6 @@ public:
 	void GenerateMoveTiles();
 	void GeneratePowerupTiles();
 	void RemovePowerupFromBoardTile(int tile) { m_powerupTileAssignments.at(tile) = PowerupTypes::None; }
-	int GenerateRandomNumber(int min, int max);
 
 private:
 	int m_boardSize;
