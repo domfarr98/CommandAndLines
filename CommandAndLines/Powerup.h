@@ -17,3 +17,5 @@ enum class PowerupTypes
 void UseReArm(Board& boardState);
 void UseShuffle(Board& boardState);
 void UseInverse(std::vector<std::unique_ptr<IGamePiece>>& gamePieces);
+std::string GetPowerUpTypeString(PowerupTypes type);
+std::string GetPowerUpTypeCharacter(PowerupTypes type);

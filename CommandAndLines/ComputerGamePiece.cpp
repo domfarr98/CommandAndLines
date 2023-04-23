@@ -5,9 +5,9 @@
 
 #include <format>
 
-ComputerGamePiece::ComputerGamePiece(std::string name, int suceedingNumber)
-	: m_name(std::move(name)), m_succeedingNumber(suceedingNumber), m_position(0), m_currentPowerup(PowerupTypes::None),
-	m_movementInversed(false)
+ComputerGamePiece::ComputerGamePiece(std::string name, int pieceNumber)
+	: m_name(std::move(name)), m_position(0), m_currentPowerup(PowerupTypes::None), m_movementInversed(false),
+	m_useChance(16), m_pieceNumber(pieceNumber)
 {
 
 }
@@ -27,10 +27,22 @@ void ComputerGamePiece::PromptPieceMove()
 		Prompt(std::format("{} rolled a {}!", m_name, moveValue));
 	}
 
-	m_position + moveValue;
+	m_position += moveValue;
 }
 
 PowerupTypes ComputerGamePiece::ShouldUsePowerup()
 {
+	if (m_currentPowerup != PowerupTypes::None)
+	{
+		auto const powerupString = GetPowerUpTypeString(m_currentPowerup);
+
+		if (auto generatedNum = GenerateRandomNumber(1, m_useChance); generatedNum == 1)
+		{
+			m_useChance = 16;
+			return m_currentPowerup;
+		}
+		
+		m_useChance /= 2;
+	}
 	return PowerupTypes::None;
 }

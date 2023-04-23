@@ -20,7 +20,7 @@ Game::Game()
 		numberOfComptuers = PromptWithResponse<int>("Invalid number of COMP players. Please enter a valid number (1-4):");
 	}
 
-	auto boardSize = PromptWithResponse<int>(std::format("Please enter the board size (multiple of {}, max 200):", g_rowSize));
+	auto boardSize = PromptWithResponse<int>(std::format("Please enter the board size (multiple of {}, max 200):", 10));
 	while (boardSize < 1 || boardSize > 200 || boardSize % 10 != 0)
 	{
 		boardSize = PromptWithResponse<int>("Invalid number of board tiles. Please enter a valid size (multiple of 10, max 200):");
@@ -29,17 +29,17 @@ Game::Game()
 	for (auto i = 0; i < numberOfPlayers; i++)
 	{
 		auto playerName = PromptWithResponse<std::string>(std::format("Please enter a name for player {} (max 10 characters):", i));
-		while (playerName.empty() || playerName.size() > 10)
+		while (playerName.empty() || static_cast<int>(playerName.size()) > 10)
 		{
 			playerName = PromptWithResponse<std::string>(std::format("Invalid name. Please enter a valid name for player {} (max 10 characters):", i));
 		}
 
-		AddPiece(std::make_unique<PlayerGamePiece>(std::move(playerName), boardSize));
+		AddPiece(std::make_unique<PlayerGamePiece>(std::move(playerName), static_cast<int>(m_gamePieces.size()) + 1));
 	}
 
 	for (auto i = 1; i < numberOfComptuers; i++)
 	{
-		AddPiece(std::make_unique<ComputerGamePiece>(std::format("Computer {}", i), boardSize));
+		AddPiece(std::make_unique<ComputerGamePiece>(std::format("Computer {}", i), static_cast<int>(m_gamePieces.size()) + 1));
 	}
 
 	m_gameBoard = Board(boardSize);
@@ -99,7 +99,7 @@ void Game::StartGame()
 			// process piece tile movement
 			if (auto const moveTileValue = m_gameBoard.getMoveTileAssignments().at(piece->GetPosition()); moveTileValue != 0)
 			{
-				piece->OffsetPoition(moveTileValue);
+				piece->OffsetPosition(moveTileValue);
 			}
 
 		}

@@ -10,8 +10,6 @@ class Game
 public:
 	Game();
 	void StartGame();
-	
-	int g_rowSize = 10;
 
 private:
 	void FinishGame();
