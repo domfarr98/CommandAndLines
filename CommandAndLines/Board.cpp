@@ -20,15 +20,15 @@ void Board::GenerateMoveTiles()
 	const int maxMoveDistance = static_cast<int>(floor((m_boardSize / 3) * 2));
 
 	// process all tiles in batches of 5, given there will be 1 move tile to any given 5 tiles
-	for (auto movementTile = 1; movementTile < numberOfMovementTiles; movementTile++)
+	for (auto movementTile = 0; movementTile < numberOfMovementTiles; movementTile++)
 	{
-		int desiredPosition = GenerateRandomNumber(1, 5);
-
-		// fill in the blanks before the move tile
-		for (auto i = 1; i < desiredPosition - 1; i++)
+		// fill the vector with blanks to start with
+		for (auto i = 1; i <= m_boardSize; i++)
 		{
 			m_moveTileAssignments.emplace_back(0);
 		}
+
+		int desiredPosition = GenerateRandomNumber(1, 5);
 
 		// calculate the movement distance value
 		int moveDistance = GenerateRandomNumber(1, maxMoveDistance) - maxMoveDistance / 2;
@@ -39,13 +39,7 @@ void Board::GenerateMoveTiles()
 			moveDistance =- moveDistance / 2;
 		}
 
-		m_moveTileAssignments.emplace_back(moveDistance);
-
-		// fill in the remaining blank tiles
-		for (auto i = desiredPosition; i < increment; i++)
-		{
-			m_moveTileAssignments.emplace_back(0);
-		}
+		m_moveTileAssignments.at(desiredPosition + (movementTile * increment)) = moveDistance;
 	}
 }
 
@@ -55,27 +49,21 @@ void Board::GeneratePowerupTiles()
 	const auto numberOfPowerupTiles = m_boardSize / increment;
 
 	// process all tiles in batches of 5, given there will be 1 move tile to any given 5 tiles
-	for (auto movementTile = 1; movementTile < numberOfPowerupTiles; movementTile++)
+	for (auto movementTile = 0; movementTile < numberOfPowerupTiles; movementTile++)
 	{
-		int desiredPosition = GenerateRandomNumber(1, 5);
-
-		// fill in the blanks before the move tile
-		for (auto i = 1; i < desiredPosition - 1; i++)
+		// fill the vector with blanks to start with
+		for (auto i = 1; i <= m_boardSize; i++)
 		{
-			m_powerupTileAssignments.emplace_back(PowerupTypes::None);
+			m_moveTileAssignments.emplace_back(0);
 		}
+
+		int desiredPosition = GenerateRandomNumber(1, 5);
 
 		// decide which powerup to pick
 		int powerupPick = GenerateRandomNumber(1, 3);
 		PowerupTypes powerup = (PowerupTypes)powerupPick;
 
-		m_powerupTileAssignments.emplace_back(powerup);
-
-		// fill in the remaining blank tiles
-		for (auto i = desiredPosition; i < increment; i++)
-		{
-			m_powerupTileAssignments.emplace_back(PowerupTypes::None);
-		}
+		m_powerupTileAssignments.at(desiredPosition + (movementTile * increment)) = powerup;
 	}
 }
 
