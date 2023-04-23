@@ -23,6 +23,7 @@
     <ClCompile Include="BoardRendering.cpp" />
     <ClCompile Include="ComputerGamePiece.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlayerGamePiece.cpp" />
     <ClCompile Include="Powerup.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="BoardRendering.h" />
     <ClInclude Include="ComputerGamePiece.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="IGamePiece.h" />
     <ClInclude Include="PlayerGamePiece.h" />
     <ClInclude Include="Powerup.h" />
