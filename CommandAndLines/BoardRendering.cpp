@@ -1,7 +1,9 @@
 #include <iostream>
 #include "BoardRendering.h"
 
-void RenderBoard(/* this will take a board state object to render */)
+void RenderBoard(Board& boardState, std::list<IGamePiece>& piecesList)
 {
+	// build board state in string
 
+	// output board
 }

@@ -3,6 +3,7 @@
 #include "Terminal.h"
 #include "PlayerGamePiece.h"
 #include "ComputerGamePiece.h"
+#include "Powerup.h"
 
 Game::Game()
 {
@@ -54,14 +55,48 @@ void Game::StartGame()
 		// render board
 
 		// process peices one by one
-		for (auto piece : m_gamePieces)
+		for (auto& piece : m_gamePieces)
 		{
-			// invoke their main action method
+			// process powerup use
+			if (auto powerup = piece.ShouldUsePowerup(); powerup != PowerupTypes::None)
+			{
+				// use powerup
+				switch (powerup)
+				{
+				case PowerupTypes::ReArm:
+					// do rearm
+					// render board
+					break;
+				case PowerupTypes::Shuffle:
+					// do shuffle
+					// render board
+					break;
+				case PowerupTypes::Inverse:
+					// do rearm
+					break;
+				}
+			}
+
+			// process piece movement
+			piece.MovePiece();
 
 			// check if they have won yet or not
-
-				// if not, check for resulting action method
+			if (piece.GetPosition() == m_gameBoard.GetBoardSize())
+			{
+				FinishGame();
+			}
 
 		}
 	}
+}
+
+void Game::FinishGame()
+{
+	m_gameInProgress = false;
+
+	// wrap up game
+
+	// output leaderboard information
+
+	// etc
 }

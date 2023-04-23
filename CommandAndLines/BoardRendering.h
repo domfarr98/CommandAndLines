@@ -1,3 +1,7 @@
 #pragma once
 
-void RenderBoard(/* This will take a board state object to render */);
+#include <list>
+#include "Board.h"
+#include "IGamePiece.h"
+
+void RenderBoard(Board& boardState, std::list<IGamePiece>& piecesList);

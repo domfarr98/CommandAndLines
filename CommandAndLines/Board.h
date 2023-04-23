@@ -15,11 +15,13 @@ public:
 	std::list<PowerupTypes> getPowerupTileAssignments() { return m_powerupTileAssignments; }
 	void setPowerupTileAssignments(std::list<PowerupTypes> assignments) { m_powerupTileAssignments = assignments; }
 
-private:
+	int GetBoardSize() { return m_boardSize; }
+
 	void GenerateMoveTiles();
 	void GeneratePowerupTiles();
 	int GenerateRandomNumber(int min, int max);
 
+private:
 	int m_boardSize;
 	std::list<int> m_moveTileAssignments;
 	std::list<PowerupTypes> m_powerupTileAssignments;

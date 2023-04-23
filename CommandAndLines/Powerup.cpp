@@ -1,16 +1,19 @@
 #include "Powerup.h"
 
-std::list<int> ReArm(std::list<int>)
+void ReArm(Board& boardState)
 {
-
+	boardState.GeneratePowerupTiles();
 }
 
-std::list<int> Shuffle(std::list<int>)
+void Shuffle(Board& boardState)
 {
-
+	boardState.GenerateMoveTiles();
 }
 
-void Inverse()
+void Inverse(std::list<IGamePiece>& gamePieces)
 {
-
+	for (auto& piece : gamePieces)
+	{
+		piece.InverseMovement();
+	}
 }
