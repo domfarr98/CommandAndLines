@@ -65,26 +65,41 @@ void Game::StartGame()
 				switch (powerup)
 				{
 				case PowerupTypes::ReArm:
-					// do rearm
+					UseReArm(m_gameBoard);
 					// render board
 					break;
 				case PowerupTypes::Shuffle:
-					// do shuffle
+					UseShuffle(m_gameBoard);
 					// render board
 					break;
 				case PowerupTypes::Inverse:
-					// do rearm
+					UseInverse(m_gamePieces);
 					break;
 				}
 			}
 
 			// process piece movement
-			piece->MovePiece();
+			piece->PromptPieceMove();
 
 			// check if they have won yet or not
 			if (piece->GetPosition() == m_gameBoard.GetBoardSize())
 			{
 				FinishGame();
+				continue;
+			}
+
+			// check if powerups need to be picked up
+			if (auto const powerupTileValue = m_gameBoard.getPowerupTileAssignments().at(piece->GetPosition()); powerupTileValue != PowerupTypes::None)
+			{
+				piece->SetPowerup(powerupTileValue);
+
+				m_gameBoard.RemovePowerupFromBoardTile(piece->GetPosition());
+			}
+
+			// process piece tile movement
+			if (auto const moveTileValue = m_gameBoard.getMoveTileAssignments().at(piece->GetPosition()); moveTileValue != 0)
+			{
+				piece->OffsetPoition(moveTileValue);
 			}
 
 		}

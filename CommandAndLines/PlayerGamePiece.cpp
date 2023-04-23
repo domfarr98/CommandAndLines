@@ -8,7 +8,7 @@ PlayerGamePiece::PlayerGamePiece(std::string name, int suceedingNumber)
 
 }
 
-void PlayerGamePiece::MovePiece()
+void PlayerGamePiece::PromptPieceMove()
 {
 	// calculate movement
 

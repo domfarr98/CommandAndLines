@@ -8,7 +8,7 @@ ComputerGamePiece::ComputerGamePiece(std::string name, int suceedingNumber)
 
 }
 
-void ComputerGamePiece::MovePiece()
+void ComputerGamePiece::PromptPieceMove()
 {
 	// calculate movement
 

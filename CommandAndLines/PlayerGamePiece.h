@@ -11,8 +11,9 @@ public:
 
 	~PlayerGamePiece() override = default;
 
-	void MovePiece() override;
+	void PromptPieceMove() override;
 	int GetPosition() override { return m_position; }
+	void OffsetPosition(int offset) { m_position += offset; }
 	PowerupTypes ShouldUsePowerup() override;
 	void SetPowerup(PowerupTypes powerup) override { m_currentPowerup = powerup; }
 	void InverseMovement() override { m_movementInversed = true; }
