@@ -1,4 +1,5 @@
 #include "ComputerGamePiece.h"
+#include "Powerup.h"
 
 ComputerGamePiece::ComputerGamePiece(std::string name, int suceedingNumber)
 	: m_name(std::move(name)), m_succeedingNumber(suceedingNumber), m_position(0), m_currentPowerup(PowerupTypes::None),
@@ -19,5 +20,5 @@ void ComputerGamePiece::MovePiece()
 
 PowerupTypes ComputerGamePiece::ShouldUsePowerup()
 {
-	
+	return PowerupTypes::None;
 }

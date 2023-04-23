@@ -2,13 +2,17 @@
 
 #include "IGamePiece.h"
 
-class PlayerGamePiece : IGamePiece
+enum class PowerupTypes;
+
+class PlayerGamePiece : public IGamePiece
 {
 public:
 	PlayerGamePiece(std::string name, int suceedingNumber);
 
+	~PlayerGamePiece() override = default;
+
 	void MovePiece() override;
-	int GetPosition() override { return m_position; };
+	int GetPosition() override { return m_position; }
 	PowerupTypes ShouldUsePowerup() override;
 	void SetPowerup(PowerupTypes powerup) override { m_currentPowerup = powerup; }
 	void InverseMovement() override { m_movementInversed = true; }

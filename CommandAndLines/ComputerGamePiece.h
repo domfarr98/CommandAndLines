@@ -2,10 +2,14 @@
 
 #include "IGamePiece.h"
 
-class ComputerGamePiece : IGamePiece
+enum class PowerupTypes;
+
+class ComputerGamePiece : public IGamePiece
 {
 public:
 	ComputerGamePiece(std::string name, int suceedingNumber);
+
+	~ComputerGamePiece() override = default;
 
 	void MovePiece() override;
 	int GetPosition() override { return m_position; }

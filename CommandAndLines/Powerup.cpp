@@ -1,19 +1,20 @@
 #include "Powerup.h"
+#include "Board.h"
 
-void ReArm(Board& boardState)
+void UseReArm(Board& boardState)
 {
 	boardState.GeneratePowerupTiles();
 }
 
-void Shuffle(Board& boardState)
+void UseShuffle(Board& boardState)
 {
 	boardState.GenerateMoveTiles();
 }
 
-void Inverse(std::list<IGamePiece>& gamePieces)
+void UseInverse(std::vector<std::unique_ptr<IGamePiece>>& gamePieces)
 {
 	for (auto& piece : gamePieces)
 	{
-		piece.InverseMovement();
+		piece->InverseMovement();
 	}
 }

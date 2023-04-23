@@ -1,8 +1,10 @@
 #pragma once
 
-#include <list>
+#include <vector>
+#include <memory>
 #include "IGamePiece.h"
-#include "Board.h"
+
+class Board;
 
 enum class PowerupTypes
 {
@@ -12,6 +14,6 @@ enum class PowerupTypes
 	None = 0
 };
 
-void ReArm(Board& boardState);
-void Shuffle(Board& boardState);
-void Inverse(std::list<IGamePiece>& gamePieces);
+void UseReArm(Board& boardState);
+void UseShuffle(Board& boardState);
+void UseInverse(std::vector<std::unique_ptr<IGamePiece>>& gamePieces);

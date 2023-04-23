@@ -1,6 +1,7 @@
 #include <format>
 #include "Game.h"
 #include "Terminal.h"
+#include "IGamePiece.h"
 #include "PlayerGamePiece.h"
 #include "ComputerGamePiece.h"
 #include "Powerup.h"
@@ -33,12 +34,12 @@ Game::Game()
 			playerName = PromptWithResponse<std::string>(std::format("Invalid name. Please enter a valid name for player {} (max 10 characters):", i));
 		}
 
-		m_gamePieces.emplace_back(PlayerGamePiece(std::move(playerName), boardSize));
+		AddPiece(std::make_unique<PlayerGamePiece>(std::move(playerName), boardSize));
 	}
 
 	for (auto i = 1; i < numberOfComptuers; i++)
 	{
-		m_gamePieces.emplace_back(ComputerGamePiece(std::format("Computer {}", i), boardSize));
+		AddPiece(std::make_unique<ComputerGamePiece>(std::format("Computer {}", i), boardSize));
 	}
 
 	m_gameBoard = Board(boardSize);
@@ -58,7 +59,7 @@ void Game::StartGame()
 		for (auto& piece : m_gamePieces)
 		{
 			// process powerup use
-			if (auto powerup = piece.ShouldUsePowerup(); powerup != PowerupTypes::None)
+			if (auto powerup = piece->ShouldUsePowerup(); powerup != PowerupTypes::None)
 			{
 				// use powerup
 				switch (powerup)
@@ -78,10 +79,10 @@ void Game::StartGame()
 			}
 
 			// process piece movement
-			piece.MovePiece();
+			piece->MovePiece();
 
 			// check if they have won yet or not
-			if (piece.GetPosition() == m_gameBoard.GetBoardSize())
+			if (piece->GetPosition() == m_gameBoard.GetBoardSize())
 			{
 				FinishGame();
 			}
@@ -99,4 +100,9 @@ void Game::FinishGame()
 	// output leaderboard information
 
 	// etc
+}
+
+void Game::AddPiece(std::unique_ptr<IGamePiece> pPiece)
+{
+	m_gamePieces.emplace_back(std::move(pPiece));
 }

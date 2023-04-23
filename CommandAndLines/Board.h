@@ -1,6 +1,6 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include "Powerup.h"
 
 class Board
@@ -9,11 +9,11 @@ public:
 	Board();
 	Board(int size);
 
-	std::list<int> getMoveTileAssignments() { return m_moveTileAssignments; }
-	void setMoveTileAssignments(std::list<int> assignments) { m_moveTileAssignments = assignments; }
+	std::vector<int> getMoveTileAssignments() { return m_moveTileAssignments; }
+	void setMoveTileAssignments(std::vector<int> assignments) { m_moveTileAssignments = assignments; }
 
-	std::list<PowerupTypes> getPowerupTileAssignments() { return m_powerupTileAssignments; }
-	void setPowerupTileAssignments(std::list<PowerupTypes> assignments) { m_powerupTileAssignments = assignments; }
+	std::vector<PowerupTypes> getPowerupTileAssignments() { return m_powerupTileAssignments; }
+	void setPowerupTileAssignments(std::vector<PowerupTypes> assignments) { m_powerupTileAssignments = assignments; }
 
 	int GetBoardSize() { return m_boardSize; }
 
@@ -23,6 +23,6 @@ public:
 
 private:
 	int m_boardSize;
-	std::list<int> m_moveTileAssignments;
-	std::list<PowerupTypes> m_powerupTileAssignments;
+	std::vector<int> m_moveTileAssignments;
+	std::vector<PowerupTypes> m_powerupTileAssignments;
 };

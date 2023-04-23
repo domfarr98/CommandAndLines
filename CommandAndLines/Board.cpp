@@ -16,8 +16,8 @@ Board::Board(int size)
 void Board::GenerateMoveTiles()
 {
 	const auto increment = 5;
-	const auto const numberOfMovementTiles = m_boardSize / increment;
-	const int maxMoveDistance = floor((m_boardSize / 3) * 2);
+	const auto numberOfMovementTiles = m_boardSize / increment;
+	const int maxMoveDistance = static_cast<int>(floor((m_boardSize / 3) * 2));
 
 	// process all tiles in batches of 5, given there will be 1 move tile to any given 5 tiles
 	for (auto movementTile = 1; movementTile < numberOfMovementTiles; movementTile++)
@@ -52,7 +52,7 @@ void Board::GenerateMoveTiles()
 void Board::GeneratePowerupTiles()
 {
 	const auto increment = 10;
-	const auto const numberOfPowerupTiles = m_boardSize / increment;
+	const auto numberOfPowerupTiles = m_boardSize / increment;
 
 	// process all tiles in batches of 5, given there will be 1 move tile to any given 5 tiles
 	for (auto movementTile = 1; movementTile < numberOfPowerupTiles; movementTile++)
@@ -82,7 +82,7 @@ void Board::GeneratePowerupTiles()
 int Board::GenerateRandomNumber(int min, int max)
 {
 	std::random_device device;
-	std::mt19937 random(device);
+	std::mt19937 random(device());
 	std::uniform_int_distribution<std::mt19937::result_type> ranDist(min, max);
 
 	return ranDist(random);
