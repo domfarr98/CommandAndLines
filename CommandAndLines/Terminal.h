@@ -2,6 +2,7 @@
 
 #include <string>
 #include <iostream>
+#include <format>
 #include <conio.h>
 
 static void Prompt(std::string text)
@@ -9,13 +10,27 @@ static void Prompt(std::string text)
 	std::cout << text << std::endl;
 }
 
-template<typename T>
-static T PromptWithResponse(std::string text)
+static std::string PromptWithResponse(std::string text)
 {
 	std::cout << text << std::endl;
-	T response;
-	std::cin >> response;
+	std::string response;
+	std::getline(std::cin, response);
 	return response;
+}
+
+static int PromptWithIntResponse(std::string text)
+{
+	auto const response = PromptWithResponse(text);
+	int intResponse = 0;
+	try
+	{
+		intResponse = std::stoi(response);
+	}
+	catch (std::invalid_argument)
+	{
+		Prompt(std::format("{} is not a number!", response));
+	}
+	return intResponse;
 }
 
 static bool PromptWithYesNoResponse(std::string text)
