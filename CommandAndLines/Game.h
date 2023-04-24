@@ -21,5 +21,4 @@ private:
 
 	bool m_gameInProgress = false;
 	int m_pieceTurn = 1;
-
 };

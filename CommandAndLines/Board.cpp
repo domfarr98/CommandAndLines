@@ -22,7 +22,7 @@ void Board::GenerateMoveTiles()
 	const int maxMoveDistance = static_cast<int>(floor((m_boardSize / 3) * 2));
 
 	// fill the vector with blanks to start with
-	for (auto i = 1; i <= m_boardSize; i++)
+	for (auto i = 0; i <= m_boardSize - 1; i++)
 	{
 		m_moveTileAssignments.emplace_back(0);
 	}
@@ -31,28 +31,36 @@ void Board::GenerateMoveTiles()
 	for (auto movementTile = 0; movementTile < numberOfMovementTiles; movementTile++)
 	{
 		int const desiredPosition = GenerateRandomNumber(0, increment - 1);
-
-		// calculate the movement distance value
+		
 		int moveDistance = GenerateRandomNumber(1, maxMoveDistance) - maxMoveDistance / 2;
 
 		// ensure movement distance is above 0 or below boardSize-1. If not, half the move distance
-		auto const currentPosition = movementTile * increment + desiredPosition;
+		auto currentPosition = movementTile * increment + desiredPosition;
 		while (currentPosition + moveDistance < 0 || currentPosition + moveDistance > m_boardSize - 1)
 		{
 			moveDistance =- moveDistance / 2;
 		}
 
-		m_moveTileAssignments.at(desiredPosition + (movementTile * increment)) = moveDistance;
+		if (currentPosition == 0)
+		{
+			currentPosition++;
+		}
+		if (currentPosition != m_boardSize - 1)
+		{
+			m_moveTileAssignments.at(currentPosition) = moveDistance;
+		}
 	}
 }
 
 void Board::GeneratePowerupTiles()
 {
+	m_powerupTileAssignments.clear();
+
 	const auto increment = 10;
 	const auto numberOfPowerupTiles = m_boardSize / increment;
 
 	// fill the vector with blanks to start with
-	for (auto i = 1; i <= m_boardSize; i++)
+	for (auto i = 0; i <= m_boardSize - 1; i++)
 	{
 		m_powerupTileAssignments.emplace_back(PowerupTypes::None);
 	}
@@ -66,6 +74,15 @@ void Board::GeneratePowerupTiles()
 		int powerupPick = GenerateRandomNumber(1, 3);
 		PowerupTypes powerup = (PowerupTypes)powerupPick;
 
-		m_powerupTileAssignments.at(desiredPosition + (movementTile * increment)) = powerup;
+		auto currentPosition = movementTile * increment + desiredPosition;
+
+		if (currentPosition == 0)
+		{
+			currentPosition++;
+		}
+		if (currentPosition != m_boardSize - 1)
+		{
+			m_powerupTileAssignments.at(currentPosition) = powerup;
+		}
 	}
 }

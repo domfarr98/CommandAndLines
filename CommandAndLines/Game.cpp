@@ -10,15 +10,15 @@
 Game::Game()
 {
 	auto numberOfPlayers = PromptWithResponse<int>("Creating new game.. \nPlease enter the number of players (1-4):");
-	while (numberOfPlayers > 4 && numberOfPlayers < 1)
+	while (numberOfPlayers > 4 || numberOfPlayers < 1)
 	{
 		numberOfPlayers = PromptWithResponse<int>("Invalid number of players. Please enter a valid number (1-4):");
 	}
 
-	auto numberOfComptuers = PromptWithResponse<int>("Please enter the number of COMP players (1-4):");
-	while (numberOfComptuers > 4 && numberOfComptuers < 1)
+	auto numberOfComputers = PromptWithResponse<int>("Please enter the number of COMP players (1-4):");
+	while (numberOfComputers > 4 || numberOfComputers < 1)
 	{
-		numberOfComptuers = PromptWithResponse<int>("Invalid number of COMP players. Please enter a valid number (1-4):");
+		numberOfComputers = PromptWithResponse<int>("Invalid number of COMP players. Please enter a valid number (1-4):");
 	}
 
 	auto boardSize = PromptWithResponse<int>(std::format("Please enter the board size (multiple of {}, max 200):", 10));
@@ -35,12 +35,12 @@ Game::Game()
 			playerName = PromptWithResponse<std::string>(std::format("Invalid name. Please enter a valid name for player {} (max 10 characters):", i));
 		}
 
-		AddPiece(std::make_unique<PlayerGamePiece>(std::move(playerName), static_cast<int>(m_gamePieces.size()) + 1, boardSize));
+		AddPiece(std::make_unique<PlayerGamePiece>(std::move(playerName), std::format("P{}", m_gamePieces.size() + 1), boardSize));
 	}
 
-	for (auto i = 0; i < numberOfComptuers; i++)
+	for (auto i = 0; i < numberOfComputers; i++)
 	{
-		AddPiece(std::make_unique<ComputerGamePiece>(std::format("COMP{}", i), static_cast<int>(m_gamePieces.size()) + 1, boardSize));
+		AddPiece(std::make_unique<ComputerGamePiece>(std::format("COMP{}", i), std::format("C{}", m_gamePieces.size() + 1), boardSize));
 	}
 
 	m_gameBoard = Board(boardSize);
@@ -89,8 +89,8 @@ void Game::StartGame()
 			// check if they have won yet or not
 			if (piece->GetPosition() == m_gameBoard.GetBoardSize())
 			{
-				FinishGame();
-				continue;
+  				FinishGame();
+				break;
 			}
 
 			// check if powerups need to be picked up
@@ -115,11 +115,17 @@ void Game::FinishGame()
 {
 	m_gameInProgress = false;
 
-	// wrap up game
+	Prompt("\n\n\n");
 
-	// output leaderboard information
+	for (auto& piece : m_gamePieces)
+	{
+		if (piece->GetPosition() == m_gameBoard.GetBoardSize())
+		{
+			Prompt(std::format("! - {} has won the game - !",  piece->GetName()));
+		}
+	}
 
-	// etc
+	PromptAndWait("\nPress any key to start a new game..");
 }
 
 void Game::AddPiece(std::unique_ptr<IGamePiece> pPiece)

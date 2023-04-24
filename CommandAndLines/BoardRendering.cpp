@@ -42,7 +42,7 @@ namespace
 					pieceNameTile = "P*";
 					break;
 				}
-				pieceNameTile = std::format("P{}", piece->GetPieceNumber());
+				pieceNameTile = std::format("{}", piece->GetPieceNumber());
 			}
 		}
 		bottomTile.append(pieceNameTile);

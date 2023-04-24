@@ -16,5 +16,5 @@ public:
 	virtual void SetPowerup(PowerupTypes powerup) = 0;
 	virtual void InverseMovement() = 0;
 	virtual std::string GetName() = 0;
-	virtual int GetPieceNumber() = 0;
+	virtual std::string GetPieceNumber() = 0;
 };
