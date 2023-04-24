@@ -7,7 +7,7 @@ enum class PowerupTypes;
 class PlayerGamePiece : public IGamePiece
 {
 public:
-	PlayerGamePiece(std::string name, int pieceNumber);
+	PlayerGamePiece(std::string name, int pieceNumber, int maxMovement);
 
 	~PlayerGamePiece() override = default;
 
@@ -26,4 +26,5 @@ private:
 	PowerupTypes m_currentPowerup;
 	bool m_movementInversed;
 	int m_pieceNumber;
+	int m_maxMovement;
 };

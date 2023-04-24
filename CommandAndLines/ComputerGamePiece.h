@@ -7,7 +7,7 @@ enum class PowerupTypes;
 class ComputerGamePiece : public IGamePiece
 {
 public:
-	ComputerGamePiece(std::string name, int pieceNumber);
+	ComputerGamePiece(std::string name, int pieceNumber, int maxMovement);
 
 	~ComputerGamePiece() override = default;
 
@@ -27,4 +27,5 @@ private:
 	bool m_movementInversed;
 	int m_useChance;
 	int m_pieceNumber;
+	int m_maxMovement;
 };

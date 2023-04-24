@@ -4,4 +4,4 @@
 #include "Board.h"
 #include "IGamePiece.h"
 
-void RenderBoard(Board& boardState, std::list<IGamePiece>& piecesList);
+void RenderBoard(Board& boardState, std::vector<std::unique_ptr<IGamePiece>>& piecesList);

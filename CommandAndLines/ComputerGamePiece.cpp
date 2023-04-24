@@ -5,9 +5,9 @@
 
 #include <format>
 
-ComputerGamePiece::ComputerGamePiece(std::string name, int pieceNumber)
-	: m_name(std::move(name)), m_position(0), m_currentPowerup(PowerupTypes::None), m_movementInversed(false),
-	m_useChance(16), m_pieceNumber(pieceNumber)
+ComputerGamePiece::ComputerGamePiece(std::string name, int pieceNumber, int maxMovement)
+	: m_name(std::move(name)), m_position(1), m_currentPowerup(PowerupTypes::None), m_movementInversed(false),
+	m_useChance(16), m_pieceNumber(pieceNumber), m_maxMovement(maxMovement)
 {
 
 }
@@ -18,13 +18,18 @@ void ComputerGamePiece::PromptPieceMove()
 
 	if (m_movementInversed)
 	{
-		Prompt(std::format("{} rolled a {}, but it got inversed!", m_name, moveValue));
+		Prompt(std::format("(C{}) - {} rolled a {}, but it got inversed!", m_pieceNumber, m_name, moveValue));
 		moveValue = -moveValue / 2;
 		m_movementInversed = false;
 	}
 	else
 	{
-		Prompt(std::format("{} rolled a {}!", m_name, moveValue));
+		if (moveValue + m_position > m_maxMovement)
+		{
+			Prompt(std::format("(C{}) - {} rolled a {}, but it was too high to win!", m_pieceNumber, m_name, moveValue));
+			return;
+		}
+		Prompt(std::format("(C{}) - {} rolled a {}!", m_pieceNumber, m_name, moveValue));
 	}
 
 	m_position += moveValue;
@@ -38,6 +43,7 @@ PowerupTypes ComputerGamePiece::ShouldUsePowerup()
 
 		if (auto generatedNum = GenerateRandomNumber(1, m_useChance); generatedNum == 1)
 		{
+			Prompt(std::format("(C{}) - {} used {}!", m_pieceNumber, m_name, powerupString));
 			m_useChance = 16;
 			return m_currentPowerup;
 		}

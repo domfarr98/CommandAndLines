@@ -5,10 +5,11 @@
 #include "PlayerGamePiece.h"
 #include "ComputerGamePiece.h"
 #include "Powerup.h"
+#include "BoardRendering.h"
 
 Game::Game()
 {
-	auto numberOfPlayers = PromptWithResponse<int>("Creating new game.. \n Please enter the number of players (1-4):");
+	auto numberOfPlayers = PromptWithResponse<int>("Creating new game.. \nPlease enter the number of players (1-4):");
 	while (numberOfPlayers > 4 && numberOfPlayers < 1)
 	{
 		numberOfPlayers = PromptWithResponse<int>("Invalid number of players. Please enter a valid number (1-4):");
@@ -34,12 +35,12 @@ Game::Game()
 			playerName = PromptWithResponse<std::string>(std::format("Invalid name. Please enter a valid name for player {} (max 10 characters):", i));
 		}
 
-		AddPiece(std::make_unique<PlayerGamePiece>(std::move(playerName), static_cast<int>(m_gamePieces.size()) + 1));
+		AddPiece(std::make_unique<PlayerGamePiece>(std::move(playerName), static_cast<int>(m_gamePieces.size()) + 1, boardSize));
 	}
 
-	for (auto i = 1; i < numberOfComptuers; i++)
+	for (auto i = 0; i < numberOfComptuers; i++)
 	{
-		AddPiece(std::make_unique<ComputerGamePiece>(std::format("Computer {}", i), static_cast<int>(m_gamePieces.size()) + 1));
+		AddPiece(std::make_unique<ComputerGamePiece>(std::format("COMP{}", i), static_cast<int>(m_gamePieces.size()) + 1, boardSize));
 	}
 
 	m_gameBoard = Board(boardSize);
@@ -51,9 +52,11 @@ void Game::StartGame()
 {
 	Prompt("Game starting now!");
 
+	m_gameInProgress = true;
+
 	while (m_gameInProgress)
 	{
-		// render board
+		RenderBoard(m_gameBoard, m_gamePieces);
 
 		// process peices one by one
 		for (auto& piece : m_gamePieces)
@@ -66,16 +69,18 @@ void Game::StartGame()
 				{
 				case PowerupTypes::ReArm:
 					UseReArm(m_gameBoard);
-					// render board
+					RenderBoard(m_gameBoard, m_gamePieces);
 					break;
 				case PowerupTypes::Shuffle:
 					UseShuffle(m_gameBoard);
-					// render board
+					RenderBoard(m_gameBoard, m_gamePieces);
 					break;
 				case PowerupTypes::Inverse:
 					UseInverse(m_gamePieces);
 					break;
 				}
+
+				piece->SetPowerup(PowerupTypes::None);
 			}
 
 			// process piece movement

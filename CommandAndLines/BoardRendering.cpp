@@ -7,16 +7,16 @@ namespace
 {
 	std::string BuildUpperTile(int tileNumber, Board& boardState)
 	{
-		std::string topTile = "";
+		std::string topTile = "|";
 		topTile.append(std::format("{}", tileNumber));
 
 		std::string moveTileString;
 		if (auto const moveTileValue = boardState.getMoveTileAssignments().at(tileNumber - 1); moveTileValue != 0)
 		{
-			moveTileString = std::format("{}{}", moveTileValue > 0 ? "+" : "-", moveTileValue);
+			moveTileString = std::format("{}{}", moveTileValue > 0 ? "+" : "", moveTileValue);
 		}
 
-		for (auto i = 7 - static_cast<int>(topTile.size()) + static_cast<int>(moveTileString.size()); i != 0; i--)
+		for (auto i = 8 - (static_cast<int>(topTile.size()) + static_cast<int>(moveTileString.size())); i != 0; i--)
 		{
 			topTile.append(" ");
 		}
@@ -28,13 +28,13 @@ namespace
 
 	std::string BuildLowerTile(int tileNumber, std::vector<std::unique_ptr<IGamePiece>>& piecesList, Board& boardState)
 	{
-		std::string bottomTile = "";
+		std::string bottomTile = "|";
 
 		std::string pieceNameTile = "";
 		auto piecesCount = 0;
 		for (auto& piece : piecesList)
 		{
-			if (piece->GetPosition() == tileNumber - 1)
+			if (piece->GetPosition() == tileNumber)
 			{
 				piecesCount++;
 				if (piecesCount > 1)
